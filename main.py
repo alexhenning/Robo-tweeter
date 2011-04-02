@@ -7,7 +7,7 @@ api = None
 handled_matches = []
 record = collections.defaultdict(lambda: {"won": 0, "lost": 0})
 team_number = None
-results_template = "In match number %(number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
+results_template = "In %(match type)s match number %(number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
 alert_template = "Team %(team number)s will be up in about %(time)s minutes. #FRC%(team number)s %(event)s"
 
 matches_known = False
@@ -15,7 +15,7 @@ match_event = None
 match_list = None
 
 debug = True
-num_tweets = {True: 600, False: 20}[debug]
+num_tweets = {True: 1000, False: 20}[debug]
 
 consumer_key = "r4FqKGKt9Uh9kwh6STEUQ"
 consumer_secret = "1Z5ey0jVy86PHUCyy8hLgs3WHVSEpnDxhH4zN73XfE"
@@ -82,7 +82,8 @@ def parse_match(text, team_number):
              "red penalty": tokens[22], "blue penalty": tokens[24],
              
              "team number": team_number}
-    
+
+    match["full type"] = {"P": "practice", "Q": "qualification", "E": "elimination"}
     match["alliance"] = {True: "red",
                          False: "blue"}[team_number in match["red alliance"]]
     match["other"] = {True: "blue",
@@ -96,11 +97,17 @@ def parse_match(text, team_number):
     match["scores"] = "%s to %s"%(match[match["alliance"]+" score"],
                                   match[match["other"]+" score"])
 
-    if team_number in match["teams"]:
+    if team_number in match["teams"] and match["type"] != "P":
         record[match["event"]][match["outcome"]] += 1
     match["record"] = "(%(won)s-%(lost)s)"%(record[match["event"]])
     
     return match
+
+def post_update(text):
+    "Post a status update on twitter and print"
+    print text
+    if not(debug):
+        api.update_status(text)
 
 def handle_match(match):
     """
@@ -108,20 +115,13 @@ def handle_match(match):
     Otherwise, alert that our match is coming up 2 matches before.
     """
     if team_number in match["teams"]:
-        text = results_template%match
-        print text
-        if not(debug):
-            api.update_status(text)
+        post_update(results_template%match)
     if matches_known:
         if (match_event == match["event"]) and (match["type"] == "Q") \
                 and (match["number"] in [i - 2 for i in match_list]):
-            text = alert_template%{"time": 15,
-                                   "team number": team_number,
-                                   "event": match_event}
-            print text
-            if not(debug):
-                api.update_status(text)
-
+            post_update(alert_template%{"time": 15,
+                                        "team number": team_number,
+                                        "event": match_event})
 
 def check_matches():
     "Check match numbers and update them"
