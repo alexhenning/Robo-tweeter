@@ -1,0 +1,29 @@
+#+TITLE:     README for Robo-Tweeter
+#+AUTHOR:    Alex Henning
+#+EMAIL:     elcron@gmail.com
+#+DATE:      2011-04-02 Sat
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+
+* Introduction
+Robo-Tweeter is a python application for tweeting results of matches at robotics competitions. It uses the FRCFMS twitter account to get the results of matches and tweet the results.
+
+* Requirements
+You need python 2.7 or thereabouts and an internet connection to run Robo-tweeter.
+: Note: Most first robotics competitions don't have a reliable internet connection
+:       so, it makes sense to run this on a server or computer that will not be at
+:       the competition unless you KNOW that you'll have an internet connection.
+
+* Setup and installation
+1. =git clone me=
+2. CD into the directory
+3. =git clone tweepy= if you don't already have tweepy installed
+4. Run =./main.py= and follow the prompts (if you have issues, try =python main.py=)
+: Setting up robo-tweeter...
+: Please visit `http://api.twitter.com/oauth/authorize?oauth_token=7dJiwgnUBaaakeCDwu8QUzaUJ8ABOJemBexvYXy3k' to enable this application.
+: Please enter the verifier code from twiter
+: Verifier: 3232720
+: Authenticated!
+: Team number: 177
+: Ready
+5. =C-c= to quit if you're not ready
