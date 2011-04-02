@@ -1,6 +1,6 @@
 
 # Template tweet for the results of a match
-results_template = "In %(match type)s match number %(number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
+results_template = "In %(full type)s match number %(number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
 
 # Template tweets for an upcoming match
 alert_template = "Team %(team number)s will be up in about %(time)s minutes. #FRC%(team number)s %(event)s"

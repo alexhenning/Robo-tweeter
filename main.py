@@ -80,7 +80,9 @@ def parse_match(text, team_number):
              
              "team number": team_number}
 
-    match["full type"] = {"P": "practice", "Q": "qualification", "E": "elimination"}
+    match["full type"] = {"P": "practice",
+                          "Q": "qualification",
+                          "E": "elimination"}[match["type"]]
     match["alliance"] = {True: "red",
                          False: "blue"}[team_number in match["red alliance"]]
     match["other"] = {True: "blue",
