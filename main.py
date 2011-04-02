@@ -1,4 +1,4 @@
-import os, sys, time, getpass, collections
+import os, sys, time, collections
 
 sys.path.append("tweepy")
 import tweepy
@@ -7,7 +7,8 @@ api = None
 handled_matches = []
 record = collections.defaultdict(lambda: {"won": 0, "lost": 0})
 team_number = None
-template = "In match number %(match number)s team %(team number)s was on the %(alliance)s with teams %(other teams) and %(outcome)s %(scores)s. %(record)s"
+template = "In match number %(match number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
+num_tweets = 600
 
 consumer_key = "r4FqKGKt9Uh9kwh6STEUQ"
 consumer_secret = "1Z5ey0jVy86PHUCyy8hLgs3WHVSEpnDxhH4zN73XfE"
@@ -61,7 +62,7 @@ def parse_match(text, team_number):
     match = {"event": tokens[0], "match type": tokens[2], "match number": tokens[4],
              "red score": tokens[6], "blue score": tokens[8],
              "red alliance": tokens[10:13], "blue alliance": tokens[14:17],
-            "teams": tokens[10:13] + tokens[14:17],
+             "teams": tokens[10:13] + tokens[14:17],
              "red bonus": tokens[18], "blue bonus": tokens[20],
              "red penalty": tokens[22], "blue penalty": tokens[24],
              
@@ -72,17 +73,18 @@ def parse_match(text, team_number):
                          False: "blue"}[team_number in match["red alliance"]]
     match["other"] = {True: "blue",
                       False: "red"}[team_number in match["red alliance"]]
-    match["other teams"] = "and".join([team for team in
-                                         match[match["alliance"]+" alliance"]
-                                           if team != team_number])
+    match["other teams"] = " and ".join([team for team in
+                                           match[match["alliance"]+" alliance"]
+                                             if team != team_number])
     match["outcome"] = {True: "won",
                         False: "lost"}[int(match[match["alliance"]+" score"]) \
                                            > int(match[match["other"]+" score"])]
     match["scores"] = "%s to %s"%(match[match["alliance"]+" score"],
                                   match[match["other"]+" score"])
 
-    record[match["event"]][match["outcome"]] += 1
-    match["record"] = "(%(won)s-%(lost)s-0)"%(record[match["event"]])
+    if team_number in match["teams"]:
+        record[match["event"]][match["outcome"]] += 1
+    match["record"] = "(%(won)s-%(lost)s)"%(record[match["event"]])
     
     return match
 
@@ -97,7 +99,9 @@ def main():
 
     print "Ready"
     while True:
-        for tweet in tweepy.Cursor(api.user_timeline, id="frcfms").items(20):
+        tweets = [i for i in tweepy.Cursor(api.user_timeline, id="frcfms").items(num_tweets)]
+        tweets.reverse()
+        for tweet in tweets:
             match = parse_match(tweet.text, team_number)
             if match["id"] not in handled_matches:
                 handle_match(match)
