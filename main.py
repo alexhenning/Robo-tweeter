@@ -71,8 +71,8 @@ def parse_match(text, team_number):
     and partners, whether we won or lost and update our record.
     """
     tokens = text.split(" ")
-    match = {"event": tokens[0], "match type": tokens[2],
-             "match number": int(tokens[4]),
+    match = {"event": tokens[0], "type": tokens[2],
+             "number": int(tokens[4]),
              "teams": tokens[10:13] + tokens[14:17],
              "id": (tokens[0], tokens[2], tokens[4]), "raw": text,
              
@@ -113,7 +113,7 @@ def handle_match(match):
         if not(debug):
             api.update_status(text)
     if matches_known:
-        if (match_event == match["event"]) \
+        if (match_event == match["event"]) and (match["type"] == "Q") \
                 and (match["number"] in [i - 2 for i in match_list]):
             text = alert_template%{"time": 15,
                                    "team number": team_number,
@@ -129,7 +129,7 @@ def check_matches():
     if os.path.exists("matches.txt"):
         with file("matches.txt", "r") as f:
             match_event = f.readline()
-            match_list = [int(num) for num in f.readline.split(", ")]
+            match_list = [int(num) for num in f.readline().split(", ")]
             matches_known = True
 
 def main():
@@ -140,6 +140,7 @@ def main():
     while True:
         if not(matches_known):
             check_matches()
+            print match_event, match_list, matches_known
         
         tweets = [i for i in tweepy.Cursor(api.user_timeline, id="frcfms").items(num_tweets)]
         tweets.reverse()
