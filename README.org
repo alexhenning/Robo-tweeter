@@ -34,6 +34,8 @@ You need python 2.7 or thereabouts and an internet connection to run Robo-tweete
 10. You're set to go
 
 * Customization
+- To change twitter account or team number, delete =.tokens= and rerun =main.py=.
+- The text of the tweets is customizable under =settings.py=
 
 * Known bugs.
 - The wins-losses record is maintained while running, if you have to restart then the record will be off
