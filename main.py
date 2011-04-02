@@ -115,7 +115,9 @@ def handle_match(match):
         post_update(results_template%match)
     if matches_known:
         if (match_event == match["event"]) and (match["type"] == "Q") \
-                and (match["number"] in [i - 2 for i in match_list]):
+                and (match["number"] in [i - 3 for i in match_list]):
+            # Alerts two matches in advance, because when we get
+            #     the tweet the match is done.
             post_update(alert_template%{"time": alert_time,
                                         "team number": team_number,
                                         "event": match_event})
