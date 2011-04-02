@@ -3,19 +3,16 @@ import os, sys, time, collections
 sys.path.append("tweepy")
 import tweepy
 
+from settings import *
 api = None
 handled_matches = []
 record = collections.defaultdict(lambda: {"won": 0, "lost": 0})
 team_number = None
-results_template = "In %(match type)s match number %(number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
-alert_template = "Team %(team number)s will be up in about %(time)s minutes. #FRC%(team number)s %(event)s"
 
 matches_known = False
 match_event = None
 match_list = None
 
-debug = True
-num_tweets = {True: 1000, False: 20}[debug]
 
 consumer_key = "r4FqKGKt9Uh9kwh6STEUQ"
 consumer_secret = "1Z5ey0jVy86PHUCyy8hLgs3WHVSEpnDxhH4zN73XfE"
@@ -119,7 +116,7 @@ def handle_match(match):
     if matches_known:
         if (match_event == match["event"]) and (match["type"] == "Q") \
                 and (match["number"] in [i - 2 for i in match_list]):
-            post_update(alert_template%{"time": 15,
+            post_update(alert_template%{"time": alert_time,
                                         "team number": team_number,
                                         "event": match_event})
 
