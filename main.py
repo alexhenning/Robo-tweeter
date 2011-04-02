@@ -7,7 +7,7 @@ api = None
 handled_matches = []
 record = collections.defaultdict(lambda: {"won": 0, "lost": 0})
 team_number = None
-results_template = "In match number %(match number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
+results_template = "In match number %(number)s team %(team number)s was on the %(alliance)s alliance with teams %(other teams)s and %(outcome)s %(scores)s. %(record)s #FRC%(team number)s %(event)s"
 alert_template = "Team %(team number)s will be up in about %(time)s minutes. #FRC%(team number)s %(event)s"
 
 matches_known = False
@@ -128,7 +128,7 @@ def check_matches():
     global matches_known, match_list, match_event
     if os.path.exists("matches.txt"):
         with file("matches.txt", "r") as f:
-            match_event = f.readline()
+            match_event = f.readline().strip(" \n\t")
             match_list = [int(num) for num in f.readline().split(", ")]
             matches_known = True
 
