@@ -41,7 +41,6 @@ Ready
 9. Save the file as =matches.txt=
 10. You're set to go
 
-* 
 * Customization
 - To change twitter account or team number, delete =.tokens= and rerun =main.py=.
 - The text of the tweets is customizable under =settings.py=
