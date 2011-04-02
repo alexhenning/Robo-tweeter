@@ -19,11 +19,22 @@ You need python 2.7 or thereabouts and an internet connection to run Robo-tweete
 2. CD into the directory
 3. =git clone tweepy= if you don't already have tweepy installed
 4. Run =./main.py= and follow the prompts (if you have issues, try =python main.py=)
-: Setting up robo-tweeter...
-: Please visit `http://api.twitter.com/oauth/authorize?oauth_token=7dJiwgnUBaaakeCDwu8QUzaUJ8ABOJemBexvYXy3k' to enable this application.
-: Please enter the verifier code from twiter
-: Verifier: 3232720
-: Authenticated!
-: Team number: 177
-: Ready
-5. =C-c= to quit if you're not ready
+  : Setting up robo-tweeter...
+  : Please visit `http://api.twitter.com/oauth/authorize?oauth_token=7dJiwgnUBaaakeCDwu8QUzaUJ8ABOJemBexvYXy3k' to enable this application.
+  : Please enter the verifier code from twiter
+  : Verifier: 3232720
+  : Authenticated!
+  : Team number: 177
+  : Ready
+5. It's now setup and running to tweet the results of matches assuming you've gotten no errors
+6. If you'd like it to tweet a warning two matches in advance that you'll be up soon, open a text editor.
+7. On the first line enter the hashtag for the event such as =#FRCCT=
+8. On the second line type a comma separated list of match numbers
+9. Save the file as =matches.txt=
+10. You're set to go
+
+* Customization
+
+* Known bugs.
+- The wins-losses record is maintained while running, if you have to restart then the record will be off
+- Sends out alerts two matches early, but doesn't know about end of day or lunch
