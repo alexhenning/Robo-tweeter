@@ -21,11 +21,17 @@ You need python 2.7 or thereabouts and an internet connection to run Robo-tweete
 4. Run =./main.py= and follow the prompts (if you have issues, try =python main.py=)
 #+BEGIN_QUOTE
 Setting up robo-tweeter...
+
 Please visit `http://api.twitter.com/oauth/authorize?oauth_token=7dJiwgnUBaaakeCDwu8QUzaUJ8ABOJemBexvYXy3k' to enable this application.
+
 Please enter the verifier code from twiter
+
 Verifier: 3232720
+
 Authenticated!
+
 Team number: 177
+
 Ready
 #+END_QUOTE
 5. It's now setup and running to tweet the results of matches assuming you've gotten no errors
@@ -35,6 +41,7 @@ Ready
 9. Save the file as =matches.txt=
 10. You're set to go
 
+* 
 * Customization
 - To change twitter account or team number, delete =.tokens= and rerun =main.py=.
 - The text of the tweets is customizable under =settings.py=
