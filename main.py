@@ -83,16 +83,23 @@ def parse_match(text, team_number):
     match["full type"] = {"P": "practice",
                           "Q": "qualification",
                           "E": "elimination"}[match["type"]]
-    match["alliance"] = {True: "red",
-                         False: "blue"}[team_number in match["red alliance"]]
-    match["other"] = {True: "blue",
-                      False: "red"}[team_number in match["red alliance"]]
+    
+    if team_number in match["red alliance"]:
+        match["alliance"] = "red"
+        match["other"] = "blue"
+    else:
+        match["alliance"] = "blue"
+        match["other"] = "red"
+
     match["other teams"] = " and ".join([team for team in
                                            match[match["alliance"]+" alliance"]
                                              if team != team_number])
-    match["outcome"] = {True: "won",
-                        False: "lost"}[int(match[match["alliance"]+" score"]) \
-                                           > int(match[match["other"]+" score"])]
+
+    if int(match[match["alliance"]+" score"]) \
+            > int(match[match["other"]+" score"]):
+        match["outcome"] = "won"
+    else: match["outcome"] = "lost"
+    
     match["scores"] = "%s to %s"%(match[match["alliance"]+" score"],
                                   match[match["other"]+" score"])
 
