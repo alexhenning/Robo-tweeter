@@ -19,4 +19,4 @@ num_tweets = {True: 1000, False: 20}[debug]
 
 # Whether or not to send a test tweet when setting up and the message
 send_test_tweet = True
-test_tweet = "Team %(team number) will now be using Robo-tweeter to tweet match results #FRC%(team number)"
+test_tweet = "Team %(team number)s will now be using Robo-tweeter to tweet match results #FRC%(team number)s"

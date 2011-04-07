@@ -23,7 +23,7 @@ def isSetup():
 
 def setup():
     "Run the setup process to initializing robo-tweeter"
-    global api
+    global api, team_number
     print "Setting up robo-tweeter..."
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 
@@ -43,11 +43,13 @@ def setup():
     api = tweepy.API(auth)
     print "Authenticated!"
 
+    team_number = raw_input("Team number: ")
+
     # Save login
     with file(".tokens", "w") as f:
         f.write("%s\n%s\n%s"%(auth.access_token.key,
                               auth.access_token.secret,
-                              raw_input("Team number: ")))
+                              team_number))
 
     if send_test_tweet:
         post_update(test_tweet%{"team number": team_number})
