@@ -48,7 +48,9 @@ def setup():
         f.write("%s\n%s\n%s"%(auth.access_token.key,
                               auth.access_token.secret,
                               raw_input("Team number: ")))
-    
+
+    if send_test_tweet:
+        post_update(test_tweet%{"team number": team_number})
 
 def login():
     "'login' to twitter... aka recover the access_token so that we can tweet"

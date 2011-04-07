@@ -14,5 +14,9 @@ alert_time = 15
 # When in debug mode, the code runs once and prints the results. Normally
 #     it runs checking every minute and a half. It also doesn't tweet while
 #     debugging. Should normally be false.
-debug = True
+debug = False
 num_tweets = {True: 1000, False: 20}[debug]
+
+# Whether or not to send a test tweet when setting up and the message
+send_test_tweet = True
+test_tweet = "Team %(team number) will now be using Robo-tweeter to tweet match results #FRC%(team number)"
